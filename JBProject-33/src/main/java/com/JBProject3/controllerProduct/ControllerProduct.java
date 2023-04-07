@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-public class Controller {
+@RequestMapping("/table_product")
+public class ControllerProduct {
     private ServiceProduct serviceProduct;
     private Product product;
 
     @Autowired
-    private Controller(ServiceProduct serviceProduct) {
+    private ControllerProduct(ServiceProduct serviceProduct) {
         this.serviceProduct = serviceProduct;
     }
 
