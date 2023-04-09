@@ -1,9 +1,8 @@
 package com.JBProject3.modelCustomer;
 
 import jakarta.persistence.*;
-import org.springframework.context.annotation.Bean;
 
-import java.util.Date;
+import java.sql.Date;
 
 @Entity
 @Table(name = "table_customer")
@@ -13,28 +12,28 @@ public class Customer {
     @Column(name = "id", nullable = false)
     private int id;
     @Column(name = "first_name", nullable = false)
-    private String first_name;
+    private String firstName;
     @Column(name = "last_name")
-    private String last_name;
+    private String lastName;
     @Column(name = "login")
     private String login;
     @Column(name = "password")
     private String password;
     @Column(name = "discount_customer")
-    private double discount_customer;
+    private double discountCustomer;
     @Column(name = "day_birth")
-    private Date day_birth;
+    private Date dayBirth;
 
 
-    public Customer(int id, String first_name, String last_name, String login,
-                    String password, double discount_customer, Date day_birth) {
+    public Customer(int id, String firstName, String lastName, String login,
+                    String password, double discountCustomer, Date dayBirth) {
         this.id = id;
-        this.first_name = first_name;
-        this.last_name = last_name;
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.login = login;
         this.password = password;
-        this.discount_customer = discount_customer;
-        this.day_birth = day_birth;
+        this.discountCustomer = discountCustomer;
+        this.dayBirth = dayBirth;
     }
 
     public Customer() {
@@ -45,12 +44,12 @@ public class Customer {
     public String toString() {
         return "Person{" +
                 "id=" + id +
-                ", first_name='" + first_name + '\'' +
-                ", last_name='" + last_name + '\'' +
+                ", first_name='" + firstName + '\'' +
+                ", last_name='" + lastName + '\'' +
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
-                ", discount_customer=" + discount_customer +
-                ", day_birth=" + day_birth +
+                ", discount_customer=" + discountCustomer +
+                ", day_birth=" + dayBirth +
                 '}';
     }
 
@@ -62,12 +61,12 @@ public class Customer {
         Customer customer = (Customer) o;
 
         if (id != customer.id) return false;
-        if (Double.compare(customer.discount_customer, discount_customer) != 0) return false;
-        if (first_name != null ? !first_name.equals(customer.first_name) : customer.first_name != null) return false;
-        if (last_name != null ? !last_name.equals(customer.last_name) : customer.last_name != null) return false;
+        if (Double.compare(customer.discountCustomer, discountCustomer) != 0) return false;
+        if (firstName != null ? !firstName.equals(customer.firstName) : customer.firstName != null) return false;
+        if (lastName != null ? !lastName.equals(customer.lastName) : customer.lastName != null) return false;
         if (login != null ? !login.equals(customer.login) : customer.login != null) return false;
         if (password != null ? !password.equals(customer.password) : customer.password != null) return false;
-        return day_birth != null ? day_birth.equals(customer.day_birth) : customer.day_birth == null;
+        return dayBirth != null ? dayBirth.equals(customer.dayBirth) : customer.dayBirth == null;
     }
 
     @Override
@@ -75,13 +74,13 @@ public class Customer {
         int result;
         long temp;
         result = id;
-        result = 31 * result + (first_name != null ? first_name.hashCode() : 0);
-        result = 31 * result + (last_name != null ? last_name.hashCode() : 0);
+        result = 31 * result + (firstName != null ? firstName.hashCode() : 0);
+        result = 31 * result + (lastName != null ? lastName.hashCode() : 0);
         result = 31 * result + (login != null ? login.hashCode() : 0);
         result = 31 * result + (password != null ? password.hashCode() : 0);
-        temp = Double.doubleToLongBits(discount_customer);
+        temp = Double.doubleToLongBits(discountCustomer);
         result = 31 * result + (int) (temp ^ (temp >>> 32));
-        result = 31 * result + (day_birth != null ? day_birth.hashCode() : 0);
+        result = 31 * result + (dayBirth != null ? dayBirth.hashCode() : 0);
         return result;
     }
 
@@ -93,20 +92,20 @@ public class Customer {
         this.id = id;
     }
 
-    public String getFirst_name() {
-        return first_name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirst_name(String first_name) {
-        this.first_name = first_name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLast_name() {
-        return last_name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLast_name(String last_name) {
-        this.last_name = last_name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getLogin() {
@@ -125,19 +124,19 @@ public class Customer {
         this.password = password;
     }
 
-    public double getDiscount_customer() {
-        return discount_customer;
+    public double getDiscountCustomer() {
+        return discountCustomer;
     }
 
-    public void setDiscount_customer(double discount_customer) {
-        this.discount_customer = discount_customer;
+    public void setDiscountCustomer(double discountCustomer) {
+        this.discountCustomer = discountCustomer;
     }
 
-    public Date getDay_birth() {
-        return day_birth;
+    public Date getDayBirth() {
+        return dayBirth;
     }
 
-    public void setDay_birth(Date day_birth) {
-        this.day_birth = day_birth;
+    public void setDayBirth(Date dayBirth) {
+        this.dayBirth = dayBirth;
     }
 }

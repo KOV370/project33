@@ -2,12 +2,14 @@ package com.JBProject3.controllerCustomer;
 
 import com.JBProject3.modelCustomer.Customer;
 import com.JBProject3.serviceCustomer.ServiceCustomer;
-import org.apache.coyote.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import java.sql.Date;
+import java.text.ParseException;
 import java.util.List;
 
 @RestController
@@ -15,7 +17,7 @@ import java.util.List;
 public class ControllerCustomer {
     ServiceCustomer serviceCustomer;
 
-    //    @Autowired
+    @Autowired
     public ControllerCustomer(ServiceCustomer serviceCustomer) {
         this.serviceCustomer = serviceCustomer;
     }
@@ -52,5 +54,31 @@ public class ControllerCustomer {
             return new ResponseEntity<>(customerList, HttpStatus.OK);
 
     }
+
+    @GetMapping("/findByBirthYear")
+    private ResponseEntity<List<Customer>> findByBirthYear
+            (@RequestParam(value = "day_birth") Date birthDay) {
+        List<Customer> customerList = null;
+        try {
+            customerList = serviceCustomer.findByBirthYear(birthDay);
+        } catch (ParseException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+        }
+        if (customerList.isEmpty() || customerList == null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(customerList, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/deleteCustomer")
+    private ResponseEntity<?> deleteCustomer(@RequestParam(value = "id") int id) {
+        boolean deleted = serviceCustomer.deleteCustomer(id);
+        if (deleted)
+            return new ResponseEntity<>(HttpStatus.OK);
+        else
+            return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+    }
+
 
 }
