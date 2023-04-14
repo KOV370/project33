@@ -77,14 +77,14 @@ public class ServiceProduct {
         return true;
     }
 
-    public boolean updateName(int id, String name) {
+    public Product updateName(int id, String name) {
         Optional<Product> optionalProduct = findById(id);
         if (optionalProduct.isEmpty()) {
-            return false;
+            return null;
         } else {
-            optionalProduct.get().setName(name);
-            productRepository.save(optionalProduct.get());
-            return true;
+            Product product = optionalProduct.get();
+            product.setName(name);
+            return productRepository.save(product);
         }
     }
 

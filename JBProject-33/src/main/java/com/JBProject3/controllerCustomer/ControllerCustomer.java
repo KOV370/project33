@@ -2,6 +2,7 @@ package com.JBProject3.controllerCustomer;
 
 import com.JBProject3.modelCustomer.Customer;
 import com.JBProject3.serviceCustomer.ServiceCustomer;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +24,7 @@ public class ControllerCustomer {
     }
 
     @PostMapping(value = "/createCustomer")
-    private ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
+    private ResponseEntity<Customer> createCustomer(@RequestBody @Valid Customer customer) {
         if (serviceCustomer.createNewCustomer(customer) != null)
             return new ResponseEntity<>(customer, HttpStatus.OK);
         else return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -58,16 +59,22 @@ public class ControllerCustomer {
     @GetMapping("/findByBirthYear")
     private ResponseEntity<List<Customer>> findByBirthYear
             (@RequestParam(value = "day_birth") Date birthDay) {
-        List<Customer> customerList = null;
-        try {
-            customerList = serviceCustomer.findByBirthYear(birthDay);
-        } catch (ParseException e) {
-            return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
-        }
-        if (customerList.isEmpty() || customerList == null)
+        List<Customer> customerList;
+        customerList = serviceCustomer.findByBirthYear(birthDay);
+        if (customerList.isEmpty())
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         else
             return new ResponseEntity<>(customerList, HttpStatus.OK);
+    }
+
+    @GetMapping("/findByDiscountMore")
+    private ResponseEntity<List<Customer>> findByDiscountMore(@RequestParam("discount_customer") @Valid double discount) {
+        List<Customer> customerList = serviceCustomer.findByDiscountMoreThan(discount);
+        if (customerList.isEmpty())
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        else
+            return new ResponseEntity<>(customerList, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/deleteCustomer")
@@ -78,6 +85,32 @@ public class ControllerCustomer {
         else
             return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+    }
+
+    @PutMapping("/updateAllCustomer")
+    private ResponseEntity<Customer> updateAll(@RequestParam(value = "id") int id, @RequestBody @Valid Customer customer) {
+        Customer savedCustomer = serviceCustomer.updateAllCustomer(id, customer);
+        if (savedCustomer == null)
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        else return new ResponseEntity<>(savedCustomer, HttpStatus.OK);
+    }
+
+    @PatchMapping("/updateDiscountCustomer")
+    private ResponseEntity<Customer> updateDiscount(@RequestParam(value = "id") int id,
+                                                    @RequestParam(value = "discount_customer") @Valid double discount) {
+        Customer updatedCustomer = serviceCustomer.updateDiscount(id, discount);
+        if (updatedCustomer == null)
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        else return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
+    }
+
+    @PatchMapping("/updatePartCustomer")
+    private ResponseEntity<Customer> updatePartCustomer(@RequestParam(value = "id") @Valid int id, @RequestBody Customer customer) {
+        Customer updatedCustomer = serviceCustomer.updatePartCustomer(id, customer);
+        if (customer == null)
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        else
+            return new ResponseEntity<>(updatedCustomer, HttpStatus.OK);
     }
 
 

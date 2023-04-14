@@ -1,6 +1,11 @@
 package com.JBProject3.modelCustomer;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.sql.Date;
 
@@ -11,19 +16,31 @@ public class Customer {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private int id;
+
     @Column(name = "first_name", nullable = false)
+    @NotEmpty(message = "First Name should not be empty")
+    @Size(min =1, max = 6, message ="First Name should not be between 1 and 6" )
     private String firstName;
+
     @Column(name = "last_name")
+    @NotEmpty(message = "Last Name should not be empty")
+    @Size(min =1, max = 2, message ="Last Name should not be between 1 and 2" )
     private String lastName;
+
     @Column(name = "login")
     private String login;
+
     @Column(name = "password")
     private String password;
-    @Column(name = "discount_customer")
-    private double discountCustomer;
-    @Column(name = "day_birth")
-    private Date dayBirth;
 
+    @Column(name = "discount_customer")
+    @Max(value = 10, message = "Discount should not be more 10%")
+    @Min(value = 0,message = "Discount should not be less 0")
+    private double discountCustomer;
+
+    @Column(name = "day_birth")
+    @DateTimeFormat(fallbackPatterns = "yyyy")
+    private Date dayBirth;
 
     public Customer(int id, String firstName, String lastName, String login,
                     String password, double discountCustomer, Date dayBirth) {
@@ -140,3 +157,13 @@ public class Customer {
         this.dayBirth = dayBirth;
     }
 }
+
+
+
+
+
+
+
+
+
+

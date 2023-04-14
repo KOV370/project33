@@ -83,10 +83,11 @@ public class ControllerProduct {
     @PatchMapping("/updateName")
     private ResponseEntity<?> updateName(@RequestParam("id") int id,
                                          @RequestParam("name") String name) {
-        boolean isUpdated = serviceProduct.updateName(id, name);
-        return isUpdated ?
-                new ResponseEntity<>(HttpStatus.OK) :
-                new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        Product product = serviceProduct.updateName(id, name);
+        if (product == null)
+            return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        else
+            return new ResponseEntity<>(product, HttpStatus.OK);
     }
 
     @PatchMapping("/updateType")

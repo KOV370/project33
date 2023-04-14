@@ -8,6 +8,8 @@ import java.util.Date;
 import java.util.List;
 
 @Repository
-public interface RepositoryCustomer extends JpaRepository<Customer,Integer> {
+public interface RepositoryCustomer extends JpaRepository<Customer, Integer> {
     List<Customer> findByDayBirthBetween(Date dateStart, Date dateFinish);
+
+    List<Customer> findByDiscountCustomerGreaterThan(double discount);
 }
